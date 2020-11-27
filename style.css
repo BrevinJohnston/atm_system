@@ -1,0 +1,91 @@
+#atm{
+    position: relative;
+    border: 10px;
+    border-color: darkslategrey;
+    border-style: solid;
+    width: 50vw;
+    height: 95vh;
+    margin: auto;
+}
+
+#topPannel{
+    background-color:darkslategrey;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+    border-bottom: darkslategrey solid 10px;
+    width: 100%;
+    height: calc(30% - 10px);
+}
+
+#display{
+    background-color: lightgray;
+    padding-left: 15px;
+    overflow-y: auto;
+    
+}
+
+#cardDetector{
+    background-color: lightgray;
+    text-align: center;
+}
+
+#cardSlot{
+    width: 75%;
+    margin: auto;
+    height: 15px;
+    background-color: black;
+    border-color: darkgray;
+    border: 5px;
+    border-style: inset;
+}
+
+#simulatedCards{
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+    border: 5px;
+    height: 30px;
+    background-color: rgb(117, 117, 117);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+    padding: 5px;
+}
+
+#lowerPannel{
+    background-color: rgb(117, 117, 117);
+    position: relative;
+    padding-top: 10px;
+    width: 100%;
+    height: calc(70% - 10px);
+}
+
+#pinField{
+    width: 75%;
+    margin: auto;
+    height: 30px;
+    background-color: lightgray;
+    border-color: darkgray;
+    border: 5px;
+    border-style: inset;
+}
+
+#keypadArea{
+    margin: auto;
+    margin-top: 10px;
+    display: grid;
+    width: 75%;
+    height: 50%;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.keypadButton{
+    font-size: 16pt;
+    font-weight: bold;
+    border: darkgrey outset 5px;
+}
+
+#enter{
+    grid-column: 1 / span 2 ;
+}
