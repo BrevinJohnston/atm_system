@@ -56,9 +56,9 @@
 #lowerPannel{
     background-color: rgb(117, 117, 117);
     position: relative;
-    padding-top: 10px;
+    padding-top: 20px;
     width: 100%;
-    height: calc(70% - 10px);
+    height: calc(70% - 20px);
 }
 
 #pinField{
@@ -88,4 +88,14 @@
 
 #enter{
     grid-column: 1 / span 2 ;
+}
+
+#cashDispenser{
+    width: 75%;
+    margin: auto;
+    height: 15px;
+    margin-top: 30px;
+    background-color: black;
+    border: 5px;
+    border-style: inset;
 }
