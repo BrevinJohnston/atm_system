@@ -66,9 +66,9 @@
     margin: auto;
     height: 30px;
     background-color: lightgray;
-    border-color: darkgray;
-    border: 5px;
-    border-style: inset;
+    border:darkgrey ridge 5px;
+    text-align: center;
+    font-size: 16pt;
 }
 
 #keypadArea{
@@ -96,6 +96,5 @@
     height: 15px;
     margin-top: 30px;
     background-color: black;
-    border: 5px;
-    border-style: inset;
+    border:darkgrey 5px inset;
 }
