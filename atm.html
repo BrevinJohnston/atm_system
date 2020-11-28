@@ -1,49 +1,42 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>ATM Demo</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-
-    <body>
-        <div id='atm'>
-            <div id='topPannel'>
-                <div id='display'>
-                    <h2>#Demo ATM System</h2>
-                    <p id='message'>#messages displayed here, could also use a ul if we want</p>
-                </div>
-
-                <div id='cardDetector'>
-                    <h2>Insert Card Here</h1>
-                    <div id='cardSlot'>Card Slot</div>
-                    <div id='simulatedCards'>
-                        <button id='C1'>C1</button>
-                        <button id='C2'>C2</button>
-                        <button id='C3'>C3</button>
-                    </div>
-                </div>
-
+<body>
+    <div id='atm'>
+        <div id='topPanel'>
+            <div id='display'>
+                <h2>SENG 523 ATM System</h2>
+                <p id='message'>Please insert your card to begin.</p>
             </div>
-            <div id='lowerPannel'>
-                <div id='pinField'>1234</div>
 
-                <div id='keypadArea'>
-                    <button class='keypadButton' id='7'>7</button>
-                    <button class='keypadButton' id='8'>8</button>
-                    <button class='keypadButton' id='9'>9</button>
-                    <button class='keypadButton' id='4'>4</button>
-                    <button class='keypadButton' id='5'>5</button>
-                    <button class='keypadButton' id='6'>6</button>
-                    <button class='keypadButton' id='1'>1</button>
-                    <button class='keypadButton' id='2'>2</button>
-                    <button class='keypadButton' id='3'>3</button>
-                    <button class='keypadButton' id='enter'>Enter</button>
-                    <button class='keypadButton' id='cancel'>Cancel</button>
+            <div id='cardDetector'>
+                <h2>Insert Card Here</h1>
+                <div id='cardSlot'>Card Slot</div>
+                <div id='simulatedCards'>
+                    <button id='C1' onClick='insertCard(user1)'>C1</button>
+                    <button id='C2' onClick='insertCard(user2)'>C2</button>
+                    <button id='C3' onClick='insertCard(user3)'>C3</button>
                 </div>
-
-                <div id='cashDispenser'></div>
             </div>
+
         </div>
-    </body>
+        <div id='lowerPanel'>
+            <div id='pinField'></div>
 
-</html>
+            <div id='keypadArea'>
+                <button class='keypadButton' id='1' onClick='numberInput(1)'>1</button>
+                <button class='keypadButton' id='2' onClick='numberInput(2)'>2</button>
+                <button class='keypadButton' id='3' onClick='numberInput(3)'>3</button>
+                <button class='keypadButton' id='4' onClick='numberInput(4)'>4</button>
+                <button class='keypadButton' id='5' onClick='numberInput(5)'>5</button>
+                <button class='keypadButton' id='6' onClick='numberInput(6)'>6</button>
+                <button class='keypadButton' id='7' onClick='numberInput(7)'>7</button>
+                <button class='keypadButton' id='8' onClick='numberInput(8)'>8</button>
+                <button class='keypadButton' id='9' onClick='numberInput(9)'>9</button>                                    
+                <button class='keypadButton' id='enter' onClick='enterButton()'>Enter</button>
+                <button class='keypadButton' id='cancel' onClick='cancelButton()'>Cancel</button>
+            </div>
+
+            <div id='cashDispenser'></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="atm.js"></script>
+</body>
