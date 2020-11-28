@@ -24,6 +24,8 @@ var card1 = 200034568719;
 var card2 = 680039564723;
 var card3 = 302097267147;
 
+welcome();
+
 function numberInput(input) {
     if(phase !== "welcome") {
         $('#pinField').append(input);
@@ -39,21 +41,35 @@ function enterButton() {
         inputWithdrawalAmount(input);
     }
 }
-function cancelButton() {
-    globalInput = "";
+function backspace() {
     $('#pinField').html("");
 }
+function cancelButton() {
+    if(phase !== "welcome") {
+        globalInput = "";
+        $('#pinField').html("");
+        $('#message').html("Transaction canceled. Ejecting card.")
+        ejectCard();
+    }   
+}
 function insertCard(card) {
-    currentUser = accountDatabase.customers.find(user => user.cardnumber == card);
-    $('#message').html("Card inserted, please enter your PIN.")
-    phase = "checkpin";
+    if(!currentUser) {
+        i = accountDatabase.customers.findIndex(user => user.cardnumber == card);
+        currentUser = accountDatabase.customers[i];
+        $('#message').html("Card inserted, please enter your PIN.")
+        phase = "checkpin";
+        $('#cardSlot').html(`card${i+1} slotted`);
+        $('#cardSlot').css("background-color", "lightgrey");
+    }   
 }
 function welcome() {
-    
+    currentUser = null;
+    $('#message').html("Welcome!<br>Please insert your card to begin.");  
+    $('#cashDispenser').html("");   
 }
 function checkPIN(pin) {
     if(pin == currentUser.pin) {
-        $('#message').html("PIN correct. How much would you like to withdraw today? (max $100)");            
+        $('#message').html("PIN correct.<br>How much would you like to withdraw today? (max $100)");            
         phase = "inputwithdrawalamount";
     }
     else {
@@ -70,7 +86,8 @@ function inputWithdrawalAmount(input) {
 }
 function verifyBalance(amount) {
     if(amount > currentUser.balance) {
-        $('#message').html("Insufficient balance on account.");
+        $('#message').html("Insufficient balance on account. Ejecting card.");
+        ejectCard();
     }
     else {
         verifyCash(amount);
@@ -78,7 +95,8 @@ function verifyBalance(amount) {
 }
 function verifyCash(amount) {
     if(amount > billStorage.valueAvailable) {
-        $('#message').html("Insufficient withdrawal amount in ATM.");
+        $('#message').html("Insufficient withdrawal amount in ATM. Ejecting card.");
+        ejectCard();
     }
     else {
         $('#message').html(`Withdrawing $${amount} from your account...`);
@@ -91,9 +109,12 @@ function verifyCash(amount) {
 function disburseCash() {
     $('#message').html("Money has been disbursed. Have a good day!");
     $('#cashDispenser').html("<img src='bill.png' alt='bill'>");
+    ejectCard();
 }
 function ejectCard() {
-
+    phase = "welcome";
+    $('#cardSlot').css("background-color", "black");
+    setTimeout(welcome, 5000);
 }
 function systemFailure() {
 
