@@ -70,6 +70,6 @@ function systemFailure() {
 
 }
 function systemClock() {
-    
+
 }
 
