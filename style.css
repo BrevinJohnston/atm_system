@@ -8,7 +8,7 @@
     margin: auto;
 }
 
-#topPannel{
+#topPanel{
     background-color:darkslategrey;
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -18,11 +18,18 @@
     height: calc(30% - 10px);
 }
 
-#display{
+#display {
     background-color: lightgray;
     padding-left: 15px;
-    overflow-y: auto;
-    
+    overflow-y: auto;   
+}
+
+#message {
+    border: solid 2px black;
+    margin-right: 10px;
+    background: white;
+    height: 50%;
+    text-align: center;
 }
 
 #cardDetector{
@@ -53,7 +60,7 @@
     padding: 5px;
 }
 
-#lowerPannel{
+#lowerPanel{
     background-color: rgb(117, 117, 117);
     position: relative;
     padding-top: 20px;
@@ -63,7 +70,9 @@
 
 #pinField{
     width: 75%;
-    margin: auto;
+    margin: 20px;
+    margin-left: auto;
+    margin-right: auto;
     height: 30px;
     background-color: lightgray;
     border:darkgrey ridge 5px;
