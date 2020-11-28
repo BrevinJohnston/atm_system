@@ -14,6 +14,34 @@ class CardScanner {
     }
 }
 
+class Keypad {
+    constructor(digits, enterKey, cancelKey, port, status) {
+        this.digits = digits;
+        this.enterKey = enterKey;
+        this.cancelKey = cancelKey;
+        this.port = port;
+        this.status = status
+    }
+}
+
+class Monitor {
+    constructor(message, status, port) {
+        this.message = message;
+        this.status = status;
+        this. port =  port;
+    }
+}
+
+class BillStorage {
+    constructor(billsInATM, valueAvailable, status, port1, port2) {
+        this.billsInATM = billsInATM;
+        this.valueAvailable = valueAvailable;
+        this.status =  status;
+        this.port1 = port1
+        this.port2 = port2
+    }
+}
+
 var user1 = {
     cardnumber: 200034568719,
     pin: 1234,
@@ -80,10 +108,9 @@ function ejectCard() {
 
 }
 function systemFailure() {
-    if (cardScanner.status === false){
+    if (cardScanner.status === false || keyPad.status === false || monitor.status === false || billStorage.status === false){
         $('#message').text("Broken System. Contact Support")
         ejectCard()
-        alert("EXIT")
     }
 }
 
@@ -96,5 +123,11 @@ function doDate() {
 }
 
 setInterval(doDate, 1000);
-cardScanner = new CardScanner(undefined, true, undefined, undefined, undefined)
+cardScanner = new CardScanner(undefined, false, undefined, undefined, undefined)
+keyPad = new Keypad(undefined, undefined, undefined, undefined, true)
+monitor = new Monitor(undefined, true, undefined)
+billStorage = new BillStorage(undefined, undefined, status, undefined, undefined )
+
+
+
 systemFailure()
