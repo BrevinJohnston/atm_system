@@ -69,7 +69,14 @@ function ejectCard() {
 function systemFailure() {
 
 }
-function systemClock() {
 
+//References:
+// https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss
+// https://stackoverflow.com/questions/26584233/updating-javascript-time-every-second
+function doDate()
+{
+    var time_now = "Current Time: " + new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+    $("#time-display").text(time_now);
 }
 
+setInterval(doDate, 1000);
