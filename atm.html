@@ -1,3 +1,14 @@
+<<<<<<< Updated upstream
+=======
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ATM Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+>>>>>>> Stashed changes
 <body>
     <div id='atm'>
         <div id='topPanel'>
@@ -10,9 +21,9 @@
                 <h2>Insert Card Here</h1>
                 <div id='cardSlot'>Card Slot</div>
                 <div id='simulatedCards'>
-                    <button id='C1' onClick='insertCard(user1)'>C1</button>
-                    <button id='C2' onClick='insertCard(user2)'>C2</button>
-                    <button id='C3' onClick='insertCard(user3)'>C3</button>
+                    <button id='C1' onClick='insertCard(card1)'>C1</button>
+                    <button id='C2' onClick='insertCard(card2)'>C2</button>
+                    <button id='C3' onClick='insertCard(card3)'>C3</button>
                 </div>
             </div>
 
@@ -30,8 +41,10 @@
                 <button class='keypadButton' id='7' onClick='numberInput(7)'>7</button>
                 <button class='keypadButton' id='8' onClick='numberInput(8)'>8</button>
                 <button class='keypadButton' id='9' onClick='numberInput(9)'>9</button>                                    
-                <button class='keypadButton' id='enter' onClick='enterButton()'>Enter</button>
                 <button class='keypadButton' id='cancel' onClick='cancelButton()'>Cancel</button>
+                <button class='keypadButton' id='0' onClick='numberInput(0)'>0</button>
+                <button class='keypadButton' id='.' onClick='numberInput(".")'>.</button>                                                                        
+                <button class='keypadButton' id='enter' onClick='enterButton()'>Enter</button>
             </div>
 
             <div id='cashDispenser'></div>
