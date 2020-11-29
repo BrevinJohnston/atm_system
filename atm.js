@@ -153,7 +153,7 @@ function systemFailure() {
         billDisburser.status === false ||
         systemDatabase.status === false ||
         scb.status === false){
-        $('#message').text("Broken System. Contact Support")
+        $('#message').text("Broken System. Contact Support.")
         phase = "systemFailure";
         ejectCard()
     }
