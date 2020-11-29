@@ -1,9 +1,44 @@
 var currentUser;
 var phase = "welcome";
+
+var cardScanner = {
+    data: undefined,
+    status: true,
+    cardInserted: undefined,
+    cardEjector: undefined,
+    port: undefined
+}
+
+var keyPad = {
+    digits: undefined ,
+    enterKey: undefined,
+    cancelKey: undefined,
+    port: undefined,
+    status: true
+}
+
+var monitor = {
+    message: undefined,
+    status: true,
+    port: undefined
+}
+
+var billDisburser = {
+    billDisbursableAmount: undefined,
+    billDisburseDriver: undefined,
+    port1: undefined,
+    port2: undefined,
+    status: true
+}
+
 var billStorage = {
     billsInATM: 1000,
-    valueAvailable: 50000
+    valueAvailable: 50000,
+    status: true,
+    port1: undefined,
+    port2: undefined
 }
+
 var accountDatabase = {
     customers: [customer1 = {
                   cardnumber: 200034568719,
@@ -24,45 +59,9 @@ var card1 = 200034568719;
 var card2 = 680039564723;
 var card3 = 302097267147;
 
+setInterval(systemClock, 1000);
+setInterval(systemFailure, 1000);
 welcome();
-
-class CardScanner {
-    constructor(data, status, cardInserted, cardEjector, port) {
-        this.data = data;
-        this.status = status;
-        this.cardInserted = cardInserted;
-        this.cardEjector = cardEjector;
-        this.port = port
-    }
-}
-
-class Keypad {
-    constructor(digits, enterKey, cancelKey, port, status) {
-        this.digits = digits;
-        this.enterKey = enterKey;
-        this.cancelKey = cancelKey;
-        this.port = port;
-        this.status = status
-    }
-}
-
-class Monitor {
-    constructor(message, status, port) {
-        this.message = message;
-        this.status = status;
-        this. port =  port;
-    }
-}
-
-class BillStorage {
-    constructor(billsInATM, valueAvailable, status, port1, port2) {
-        this.billsInATM = billsInATM;
-        this.valueAvailable = valueAvailable;
-        this.status =  status;
-        this.port1 = port1
-        this.port2 = port2
-    }
-}
 
 function numberInput(input) {
     if(phase !== "welcome") {
@@ -150,13 +149,20 @@ function disburseCash() {
     ejectCard();
 }
 function ejectCard() {
-    phase = "welcome";
     $('#cardSlot').css("background-color", "black");
-    setTimeout(welcome, 5000);
+    if (phase !== "systemFailure") {
+        phase = "welcome";
+        setTimeout(welcome, 5000);
+    }
 }
 function systemFailure() {
-    if (cardScanner.status === false || keyPad.status === false || monitor.status === false || billStorage.status === false){
+    if (cardScanner.status === false ||
+        keyPad.status === false ||
+        monitor.status === false ||
+        billStorage.status === false ||
+        billDisburser.status === false){
         $('#message').text("Broken System. Contact Support")
+        phase = "systemFailure";
         ejectCard()
     }
 }
@@ -164,14 +170,7 @@ function systemFailure() {
 //References:
 // https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss
 // https://stackoverflow.com/questions/26584233/updating-javascript-time-every-second
-function doDate() {
+function systemClock() {
     var time_now = "Current Time: " + new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
     $("#time-display").text(time_now);
 }
-
-setInterval(doDate, 1000);
-cardScanner = new CardScanner(undefined, false, undefined, undefined, undefined)
-keyPad = new Keypad(undefined, undefined, undefined, undefined, true)
-monitor = new Monitor(undefined, true, undefined)
-billStorage = new BillStorage(undefined, undefined, false, undefined, undefined )
-systemFailure()
