@@ -2,6 +2,7 @@ var currentUser;
 var phase = "welcome";
 
 var scb = {
+    transaction: 0,
     status: true
 }
 
@@ -18,6 +19,7 @@ var monitor = {
 }
 
 var billDisburser = {
+    withdrawAmount: 0,
     status: true
 }
 
@@ -107,39 +109,43 @@ function inputWithdrawalAmount(input) {
         $('#message').html("Entered amount should be less than $100.") ;
     }
     else {
-        verifyBalance(input);
+        scb.transaction = input;
+        verifyBalance();
     }
 }
-function verifyBalance(amount) {
-    if(amount > currentUser.balance) {
+function verifyBalance() {
+    if(scb.transaction > currentUser.balance) {
         $('#message').html("Insufficient balance on account. Ejecting card.");
         ejectCard();
     }
     else {
-        verifyCash(amount);
+        verifyCash();
     }
 }
-function verifyCash(amount) {
-    if(amount > billStorage.valueAvailable) {
+function verifyCash() {
+    if(scb.transaction > billStorage.valueAvailable) {
         $('#message').html("Insufficient withdrawal amount in ATM. Ejecting card.");
         ejectCard();
     }
     else {
-        $('#message').html(`Withdrawing $${amount} from your account...`);
-        billStorage.billsInATM--;
-        billStorage.valueAvailable -= amount;
-        systemDatabase.customers.find(user => user === currentUser).balance -= amount;
+        $('#message').html(`Withdrawing $${scb.transaction} from your account...`);
         setTimeout(disburseCash, 3000);
     }
 }
 function disburseCash() {
+    billDisburser.withdrawAmount = scb.transaction; 
+    billStorage.billsInATM--;
+    billStorage.valueAvailable -= billDisburser.withdrawAmount;
+    systemDatabase.customers.find(user => user === currentUser).balance -= billDisburser.withdrawAmount;
     $('#message').html("Money has been disbursed. Have a good day!");
     $('#cashDispenser').html("<img src='bill.png' alt='bill'>");
+    billDisburser.withdrawAmount = 0;
     ejectCard();
 }
 function ejectCard() {
     $('#cardSlot').css("background-color", "black");
     if (phase !== "systemFailure") {
+        scb.transaction = 0;
         $('#cardSlot').html(``);
         phase = "welcome";
         setTimeout(welcome, 5000);
