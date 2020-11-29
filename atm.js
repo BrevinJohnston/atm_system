@@ -145,7 +145,6 @@ function ejectCard() {
     }
 }
 function systemFailure() {
-    debugger
     if (cardScanner.status === false ||
         keyPad.status === false ||
         monitor.status === false ||
