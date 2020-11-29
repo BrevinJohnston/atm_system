@@ -1,9 +1,44 @@
 var currentUser;
 var phase = "welcome";
+
+var cardScanner = {
+    data: undefined,
+    status: true,
+    cardInserted: undefined,
+    cardEjector: undefined,
+    port: undefined
+}
+
+var keyPad = {
+    digits: undefined ,
+    enterKey: undefined,
+    cancelKey: undefined,
+    port: undefined,
+    status: true
+}
+
+var monitor = {
+    message: undefined,
+    status: true,
+    port: undefined
+}
+
+var billDisburser = {
+    billDisbursableAmount: undefined,
+    billDisburseDriver: undefined,
+    port1: undefined,
+    port2: undefined,
+    status: true
+}
+
 var billStorage = {
     billsInATM: 1000,
-    valueAvailable: 50000
+    valueAvailable: 50000,
+    status: true,
+    port1: undefined,
+    port2: undefined
 }
+
 var accountDatabase = {
     customers: [customer1 = {
                   cardnumber: 200034568719,
@@ -19,23 +54,15 @@ var accountDatabase = {
                   balance: 40}
                ]
 }
-var componentFailure = [];
+
 var card1 = 200034568719;
 var card2 = 680039564723;
 var card3 = 302097267147;
 
+setInterval(systemClock, 1000);
+setInterval(systemFailure, 1000);
 welcome();
-var componentFailure = [];
 
-class CardScanner {
-    constructor(data, status, cardInserted, cardEjector, port) {
-        this.data = data;
-        this.status = status;
-        this.cardInserted = cardInserted;
-        this.cardEjector = cardEjector;
-        this.port = port
-    }
-}
 function numberInput(input) {
     if(phase !== "welcome") {
         $('#pinField').append(input);
@@ -60,7 +87,7 @@ function cancelButton() {
         $('#pinField').html("");
         $('#message').html("Transaction canceled. Ejecting card.")
         ejectCard();
-    }   
+    }
 }
 function insertCard(card) {
     if(!currentUser) {
@@ -70,16 +97,16 @@ function insertCard(card) {
         phase = "checkpin";
         $('#cardSlot').html(`card${i+1} slotted`);
         $('#cardSlot').css("background-color", "lightgrey");
-    }   
+    }
 }
 function welcome() {
     currentUser = null;
-    $('#message').html("Welcome!<br>Please insert your card to begin.");  
-    $('#cashDispenser').html("");   
+    $('#message').html("Welcome!<br>Please insert your card to begin.");
+    $('#cashDispenser').html("");
 }
 function checkPIN(pin) {
     if(pin == currentUser.pin) {
-        $('#message').html("PIN correct.<br>How much would you like to withdraw today? (max $100)");            
+        $('#message').html("PIN correct.<br>How much would you like to withdraw today? (max $100)");
         phase = "inputwithdrawalamount";
     }
     else {
@@ -122,26 +149,28 @@ function disburseCash() {
     ejectCard();
 }
 function ejectCard() {
-    phase = "welcome";
     $('#cardSlot').css("background-color", "black");
-    setTimeout(welcome, 5000);
+    if (phase !== "systemFailure") {
+        phase = "welcome";
+        setTimeout(welcome, 5000);
+    }
 }
 function systemFailure() {
-    if (cardScanner.status === false){
+    if (cardScanner.status === false ||
+        keyPad.status === false ||
+        monitor.status === false ||
+        billStorage.status === false ||
+        billDisburser.status === false){
         $('#message').text("Broken System. Contact Support")
+        phase = "systemFailure";
         ejectCard()
-        alert("EXIT")
     }
 }
 
 //References:
 // https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss
 // https://stackoverflow.com/questions/26584233/updating-javascript-time-every-second
-function doDate() {
+function systemClock() {
     var time_now = "Current Time: " + new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
     $("#time-display").text(time_now);
 }
-
-setInterval(doDate, 1000);
-cardScanner = new CardScanner(undefined, true, undefined, undefined, undefined)
-systemFailure()
