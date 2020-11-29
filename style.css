@@ -52,7 +52,7 @@
     margin: auto;
     margin-top: 10px;
     border: 5px;
-    height: 30px;
+    height: 40px;
     background-color: rgb(117, 117, 117);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -65,7 +65,7 @@
     position: relative;
     padding-top: 20px;
     width: 100%;
-    height: calc(70% - 20px);
+    height: calc(75% - 30px);
 }
 
 #pinField{
@@ -73,7 +73,7 @@
     margin: 20px;
     margin-left: auto;
     margin-right: auto;
-    height: 30px;
+    height: 40px;
     background-color: lightgray;
     border:darkgrey ridge 5px;
     text-align: center;

@@ -140,6 +140,7 @@ function disburseCash() {
 function ejectCard() {
     $('#cardSlot').css("background-color", "black");
     if (phase !== "systemFailure") {
+        $('#cardSlot').html(``);
         phase = "welcome";
         setTimeout(welcome, 5000);
     }
