@@ -1,33 +1,23 @@
 var currentUser;
 var phase = "welcome";
 
+var scb = {
+    status: true
+}
+
 var cardScanner = {
-    data: undefined,
-    status: true,
-    cardInserted: undefined,
-    cardEjector: undefined,
-    port: undefined
+    status: true
 }
 
 var keyPad = {
-    digits: undefined ,
-    enterKey: undefined,
-    cancelKey: undefined,
-    port: undefined,
     status: true
 }
 
 var monitor = {
-    message: undefined,
-    status: true,
-    port: undefined
+    status: true
 }
 
 var billDisburser = {
-    billDisbursableAmount: undefined,
-    billDisburseDriver: undefined,
-    port1: undefined,
-    port2: undefined,
     status: true
 }
 
@@ -35,11 +25,9 @@ var billStorage = {
     billsInATM: 1000,
     valueAvailable: 50000,
     status: true,
-    port1: undefined,
-    port2: undefined
 }
 
-var accountDatabase = {
+var systemDatabase = {
     customers: [customer1 = {
                   cardnumber: 200034568719,
                   pin: 1234,
@@ -52,7 +40,8 @@ var accountDatabase = {
                   cardnumber: 302097267147,
                   pin: 3456,
                   balance: 40}
-               ]
+               ],
+    status: true
 }
 
 var card1 = 200034568719;
@@ -91,8 +80,8 @@ function cancelButton() {
 }
 function insertCard(card) {
     if(!currentUser) {
-        i = accountDatabase.customers.findIndex(user => user.cardnumber == card);
-        currentUser = accountDatabase.customers[i];
+        i = systemDatabase.customers.findIndex(user => user.cardnumber == card);
+        currentUser = systemDatabase.customers[i];
         $('#message').html("Card inserted, please enter your PIN.")
         phase = "checkpin";
         $('#cardSlot').html(`card${i+1} slotted`);
@@ -139,7 +128,7 @@ function verifyCash(amount) {
         $('#message').html(`Withdrawing $${amount} from your account...`);
         billStorage.billsInATM--;
         billStorage.valueAvailable -= amount;
-        accountDatabase.customers.find(user => user === currentUser).balance -= amount;
+        systemDatabase.customers.find(user => user === currentUser).balance -= amount;
         setTimeout(disburseCash, 3000);
     }
 }
@@ -160,8 +149,10 @@ function systemFailure() {
         keyPad.status === false ||
         monitor.status === false ||
         billStorage.status === false ||
-        billDisburser.status === false){
-        $('#message').text("Broken System. Contact Support")
+        billDisburser.status === false ||
+        systemDatabase.status === false ||
+        scb.status === false){
+        $('#message').text("Broken System. Contact Support.")
         phase = "systemFailure";
         ejectCard()
     }
