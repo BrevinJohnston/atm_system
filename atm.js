@@ -1,7 +1,6 @@
-var currentUser;
-var phase = "welcome";
-
 var scb = {
+    currentUser: null,
+    phase: 'welcome',
     transaction: 0,
     status: true
 }
@@ -55,17 +54,17 @@ setInterval(systemFailure, 1000);
 welcome();
 
 function numberInput(input) {
-    if(phase !== "welcome") {
+    if(scb.phase !== "welcome") {
         $('#pinField').append(input);
     }
 }
 function enterButton() {
     let input = $(pinField).html();
     $('#pinField').html("");
-    if(phase === 'checkpin') {
+    if(scb.phase === 'checkpin') {
         checkPIN(input);
     }
-    else if(phase === 'inputwithdrawalamount') {
+    else if(scb.phase === 'inputwithdrawalamount') {
         inputWithdrawalAmount(input);
     }
 }
@@ -73,7 +72,7 @@ function backspace() {
     $('#pinField').html("");
 }
 function cancelButton() {
-    if(phase !== "welcome") {
+    if(scb.phase !== "welcome") {
         globalInput = "";
         $('#pinField').html("");
         $('#message').html("Transaction canceled. Ejecting card.")
@@ -81,24 +80,24 @@ function cancelButton() {
     }
 }
 function insertCard(card) {
-    if(!currentUser) {
+    if(!scb.currentUser) {
         i = systemDatabase.customers.findIndex(user => user.cardnumber == card);
-        currentUser = systemDatabase.customers[i];
+        scb.currentUser = systemDatabase.customers[i];
         $('#message').html("Card inserted, please enter your PIN.")
-        phase = "checkpin";
+        scb.phase = "checkpin";
         $('#cardSlot').html(`card${i+1} slotted`);
         $('#cardSlot').css("background-color", "lightgrey");
     }
 }
 function welcome() {
-    currentUser = null;
+    scb.currentUser = null;
     $('#message').html("Welcome!<br>Please insert your card to begin.");
     $('#cashDispenser').html("");
 }
 function checkPIN(pin) {
-    if(pin == currentUser.pin) {
+    if(pin == scb.currentUser.pin) {
         $('#message').html("PIN correct.<br>How much would you like to withdraw today? (max $100)");
-        phase = "inputwithdrawalamount";
+        scb.phase = "inputwithdrawalamount";
     }
     else {
         $('#message').html("PIN incorrect, please try again.");
@@ -114,7 +113,7 @@ function inputWithdrawalAmount(input) {
     }
 }
 function verifyBalance() {
-    if(scb.transaction > currentUser.balance) {
+    if(scb.transaction > scb.currentUser.balance) {
         $('#message').html("Insufficient balance on account. Ejecting card.");
         ejectCard();
     }
@@ -136,7 +135,7 @@ function disburseCash() {
     billDisburser.withdrawAmount = scb.transaction; 
     billStorage.billsInATM--;
     billStorage.valueAvailable -= billDisburser.withdrawAmount;
-    systemDatabase.customers.find(user => user === currentUser).balance -= billDisburser.withdrawAmount;
+    systemDatabase.customers.find(user => user === scb.currentUser).balance -= billDisburser.withdrawAmount;
     $('#message').html("Money has been disbursed. Have a good day!");
     $('#cashDispenser').html("<img src='bill.png' alt='bill'>");
     billDisburser.withdrawAmount = 0;
@@ -144,10 +143,10 @@ function disburseCash() {
 }
 function ejectCard() {
     $('#cardSlot').css("background-color", "black");
-    if (phase !== "systemFailure") {
+    if (scb.phase !== "systemFailure") {
         scb.transaction = 0;
         $('#cardSlot').html(``);
-        phase = "welcome";
+        scb.phase = "welcome";
         setTimeout(welcome, 5000);
     }
 }
@@ -160,7 +159,7 @@ function systemFailure() {
         systemDatabase.status === false ||
         scb.status === false){
         $('#message').text("Broken System. Contact Support.")
-        phase = "systemFailure";
+        scb.phase = "systemFailure";
         ejectCard()
     }
 }
